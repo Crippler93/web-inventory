@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
+using Inventory.Data;
 
 namespace Inventory
 {
@@ -13,7 +15,29 @@ namespace Inventory
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+
+            CreateDBIfNotExist(host);
+
+            host.Run();
+        }
+
+        public static void CreateDBIfNotExist(IHost host)
+        {
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                try
+                {
+                    var context = services.GetRequiredService<InventoryDataContext>();
+                    DbInitializer.Initialize(context);
+                }
+                catch (System.Exception ex)
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error ocurred creating the DB.");
+                }
+            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+
+using Inventory.Data;
 
 namespace Inventory
 {
@@ -22,6 +25,10 @@ namespace Inventory
         {
 
             services.AddControllersWithViews();
+
+            services.AddDbContext<InventoryDataContext>(options => 
+                options.UseSqlServer(Configuration.GetConnectionString("InventoryContext"))
+            );
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
