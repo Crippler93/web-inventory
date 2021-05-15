@@ -7,5 +7,7 @@ namespace Inventory.Repository
   public interface IInventoryRepository
   {
     public IEnumerable<Item> getAll();
+
+    public int create(Item item);
   }
 }

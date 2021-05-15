@@ -12,8 +12,17 @@ namespace Inventory.Repository {
       _context = context;
     }
 
-    public IEnumerable<Item> getAll() {
+    public IEnumerable<Item> getAll() 
+    {
       return this._context.Items.ToList<Item>();
     }
+
+    public int create(Item item) 
+    {
+      this._context.Items.Add(item);
+      this._context.SaveChanges();
+      return item.ItemId;
+    }
+
   }
 }

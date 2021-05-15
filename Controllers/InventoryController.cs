@@ -21,5 +21,10 @@ namespace Inventory.Controllers
       public IEnumerable<Item> getItems() {
         return this._repo.getAll();
       } 
+
+      [HttpPost]
+      public int createItem(Item item) {
+        return this._repo.create(item);
+      }
     }
 }
