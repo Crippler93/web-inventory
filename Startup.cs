@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 
 using Inventory.Data;
+using Inventory.Repository;
 
 namespace Inventory
 {
@@ -29,6 +30,8 @@ namespace Inventory
             services.AddDbContext<InventoryDataContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("InventoryContext"))
             );
+
+            services.AddScoped<IInventoryRepository, InventoryRepository>();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
