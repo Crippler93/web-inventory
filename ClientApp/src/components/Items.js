@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useItemContext } from "../context/ItemContext";
 
 export const Items = () => {
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
+
+  const { items, fetchItems, loading } = useItemContext()
 
   useEffect(() => {
-    populateItems();
+    fetchItems();
   }, []);
 
   const renderTable = () => (
@@ -22,24 +23,12 @@ export const Items = () => {
           <tr key={item.itemId}>
             <td>{item.name}</td>
             <td>{item.quantity}</td>
-            <td>{formatDate(item.createdAt)}</td>
+            <td>{item.createdAt}</td>
           </tr>
         ))}
       </tbody>
     </table>
   );
-
-  const populateItems = async () => {
-    const response = await fetch("inventory");
-    const data = await response.json();
-    setItems(data);
-    setLoading(false);
-  };
-
-  const formatDate = string => {
-    const date = new Date(string)
-    return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`
-  }
 
   return (
     <div>
