@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+
 import { useItemContext } from "../context/ItemContext";
 
 export const Items = () => {
@@ -40,6 +42,7 @@ export const Items = () => {
       ) : (
         renderTable()
       )}
+      <Link to="create-item">Create item</Link>
     </div>
   );
 };
