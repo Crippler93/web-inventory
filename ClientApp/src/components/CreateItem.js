@@ -1,9 +1,18 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import { useItemContext } from '../context/ItemContext'
 
 export const CreateItem = () => {
 
   const {name, quantity, errors, updateForm, createItem} = useItemContext()
+  const history = useHistory()
+  
+  const handleSubmit = async event => {
+    const id = await createItem(event)
+    if (id) {
+      history.push('items')
+    }
+  }
 
   return (
     <div>
@@ -11,11 +20,22 @@ export const CreateItem = () => {
       {
         !!errors.length && (
           <div className="alert alert-danger" role="alert">
-            {errors.map(error => (<div>{error}</div>))}
+            {errors.map(({name, errors:moreErrors}, i) => (
+              <div key={i}>
+                {`${name}:`}
+                <ul>
+                {moreErrors.map((message, i2) => (
+                  <li key={i2}>
+                    {message}
+                  </li>
+                ))}
+                </ul>
+              </div>)
+            )}
           </div>
         )
       }
-      <form onSubmit={createItem}>
+      <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Name</label>
           <input className="form-control" type="text" value={name} name="name" onChange={updateForm}></input>

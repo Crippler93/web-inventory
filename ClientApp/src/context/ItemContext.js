@@ -53,18 +53,21 @@ export const ItemProvider = ({ children }) => {
     };
     try {
       const result = await fetch("inventory", requestOptions);
-      if (result.status !== 201) {
+      if (result.status !== 200) {
         const data = await result.json()
         const errors = Object.entries(data.errors).map(error => {
-          const [, messages] = error
-          return messages.join(', ')
+          const [name, errors] = error
+          return {name, errors}
         })
         setErrors(errors)
         return
       }
       const data = await result.json();
       setName("");
+      setErrors([])
       setQuantity("1");
+
+      return data
     } catch (error) {
       setErrors([error.message])
     }
