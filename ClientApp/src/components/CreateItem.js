@@ -3,11 +3,18 @@ import { useItemContext } from '../context/ItemContext'
 
 export const CreateItem = () => {
 
-  const {name, quantity, updateForm, createItem} = useItemContext()
+  const {name, quantity, errors, updateForm, createItem} = useItemContext()
 
   return (
     <div>
       <h1>Create new item</h1>
+      {
+        !!errors.length && (
+          <div className="alert alert-danger" role="alert">
+            {errors.map(error => (<div>{error}</div>))}
+          </div>
+        )
+      }
       <form onSubmit={createItem}>
         <div className="form-group">
           <label>Name</label>

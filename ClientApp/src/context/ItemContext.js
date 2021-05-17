@@ -9,6 +9,7 @@ export const useItemContext = () => {
 export const ItemProvider = ({ children }) => {
   const [items, setItems] = useState([]);
   const [name, setName] = useState("");
+  const [errors, setErrors] = useState([]);
   const [quantity, setQuantity] = useState("1");
   const [loading, setLoading] = useState(true);
 
@@ -50,10 +51,23 @@ export const ItemProvider = ({ children }) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, quantity }),
     };
-    const result = await fetch("inventory", requestOptions);
-    const data = await result.json();
-    setName("");
-    setQuantity("1");
+    try {
+      const result = await fetch("inventory", requestOptions);
+      if (result.status !== 201) {
+        const data = await result.json()
+        const errors = Object.entries(data.errors).map(error => {
+          const [, messages] = error
+          return messages.join(', ')
+        })
+        setErrors(errors)
+        return
+      }
+      const data = await result.json();
+      setName("");
+      setQuantity("1");
+    } catch (error) {
+      setErrors([error.message])
+    }
   };
 
   return (
@@ -64,6 +78,7 @@ export const ItemProvider = ({ children }) => {
         fetchItems,
         name,
         quantity,
+        errors,
         updateForm,
         createItem,
       }}
