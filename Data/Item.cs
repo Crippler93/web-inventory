@@ -7,7 +7,9 @@ namespace Inventory.Data {
   {
     public int ItemId { get; set; }
     [Required]
+    [MinLength(2)]
     public string Name { get; set; }
+    [Range(0, int.MaxValue)]
     public int Quantity { get; set; }
     [Column("created_at")]
     public DateTime CreatedAt { get; set; } = DateTime.Now;
