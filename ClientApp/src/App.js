@@ -9,6 +9,7 @@ import { ItemProvider } from './context/ItemContext';
 import { CreateItem } from './components/CreateItem';
 
 import './custom.css'
+import { ItemDetail } from './components/ItemDetail';
 
 export default class App extends Component {
   static displayName = App.name;
@@ -18,6 +19,7 @@ export default class App extends Component {
       <Layout>
         <Route exact path='/' component={Home} />
         <ItemProvider>
+          <Route exact path='/items/:id' component={ItemDetail} />
           <Route exact path='/items' component={Items} />
           <Route exact path='/create-item' component={CreateItem} />
         </ItemProvider>

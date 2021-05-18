@@ -8,6 +8,7 @@ export const useItemContext = () => {
 
 export const ItemProvider = ({ children }) => {
   const [items, setItems] = useState([]);
+  const [item, setItem] = useState({});
   const [name, setName] = useState("");
   const [errors, setErrors] = useState([]);
   const [quantity, setQuantity] = useState("1");
@@ -24,6 +25,19 @@ export const ItemProvider = ({ children }) => {
     );
     setLoading(false);
   };
+
+  const fetchItemById = async id => {
+    setLoading(true)
+    try {
+      const response = await fetch("inventory/" + id)
+      const data = await response.json()
+      setItem({...data, createdAt: formatDate(data.createdAt)})
+    } catch (error) {
+      setErrors([error])
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const formatDate = (string) => {
     const date = new Date(string);
@@ -77,8 +91,10 @@ export const ItemProvider = ({ children }) => {
     <ItemContext.Provider
       value={{
         items,
+        item,
         loading,
         fetchItems,
+        fetchItemById,
         name,
         quantity,
         errors,

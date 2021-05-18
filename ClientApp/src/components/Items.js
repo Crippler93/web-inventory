@@ -18,14 +18,16 @@ export const Items = () => {
           <th>Name</th>
           <th>Quantity</th>
           <th>Created At</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
         {items.map((item) => (
-          <tr key={item.itemId}>
+          <tr key={item.itemId} >
             <td>{item.name}</td>
             <td>{item.quantity}</td>
             <td>{item.createdAt}</td>
+            <td><Link to={`items/${item.itemId}`}>details</Link></td>
           </tr>
         ))}
       </tbody>
