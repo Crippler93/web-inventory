@@ -24,5 +24,9 @@ namespace Inventory.Repository {
       return item.ItemId;
     }
 
+    public Item getById(int id)
+    {
+      return this._context.Items.Find(id);
+    }
   }
 }

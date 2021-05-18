@@ -26,5 +26,16 @@ namespace Inventory.Controllers
       public int createItem(Item item) {
         return this._repo.create(item);
       }
+
+      [HttpGet("{id:int}")]
+      public IActionResult getItem(int id)
+      {
+        var item = this._repo.getById(id);
+        if (item == null) 
+        {
+          return NotFound();
+        }
+        return Ok(item);
+      }
     }
 }
