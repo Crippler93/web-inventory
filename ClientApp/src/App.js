@@ -7,9 +7,10 @@ import { Counter } from './components/Counter';
 import { Items } from './components/Items';
 import { ItemProvider } from './context/ItemContext';
 import { CreateItem } from './components/CreateItem';
+import { ItemDetail } from './components/ItemDetail';
+import { EditItem } from './components/EditItem';
 
 import './custom.css'
-import { ItemDetail } from './components/ItemDetail';
 
 export default class App extends Component {
   static displayName = App.name;
@@ -22,6 +23,7 @@ export default class App extends Component {
           <Route exact path='/items/:id' component={ItemDetail} />
           <Route exact path='/items' component={Items} />
           <Route exact path='/create-item' component={CreateItem} />
+          <Route exact path='/items/edit/:id' component={EditItem} />
         </ItemProvider>
         <Route path='/counter' component={Counter} />
         <Route path='/fetch-data' component={FetchData} />

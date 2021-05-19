@@ -22,6 +22,11 @@ export const ItemDetail = () => {
             <span><b>Created At:</b> {item.createdAt}</span>
             <br></br>
             <span><b>Quantity:</b> {item.quantity}</span>
+            <div className="d-flex flex-row-reverse">
+              <Link to={`/items/edit/${item.itemId}`}>
+                <button className="btn btn-sm btn-primary">Edit</button>
+              </Link>
+            </div>
           </div>
         )
       }
