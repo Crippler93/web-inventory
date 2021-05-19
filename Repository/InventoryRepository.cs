@@ -28,5 +28,17 @@ namespace Inventory.Repository {
     {
       return this._context.Items.Find(id);
     }
+
+    public Item editItemById(int id, Item newItem)
+    {
+      var item = this._context.Items.Find(id);
+      if (item == null) {
+        return null;
+      }
+      item.Name = newItem.Name;
+      item.Quantity = newItem.Quantity;
+      this._context.SaveChanges();
+      return item;
+    }
   }
 }

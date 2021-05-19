@@ -16,9 +16,9 @@ export const EditItem = () => {
   
   const handleSubmit = async event => {
     try {
-      const id = await updateItem(event)
-      if (id) {
-        history.push(`/items/${id}`)
+      const item = await updateItem(event)
+      if (item.itemId) {
+        history.push(`/items/${item.itemId}`)
       }
     } catch (error) {
       console.error(error);

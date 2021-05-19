@@ -11,5 +11,7 @@ namespace Inventory.Repository
     public int create(Item item);
 
     public Item getById(int id);
+
+    public Item editItemById(int id, Item item);
   }
 }

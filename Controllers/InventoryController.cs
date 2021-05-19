@@ -37,5 +37,15 @@ namespace Inventory.Controllers
         }
         return Ok(item);
       }
+
+      [HttpPut("{id:int}")]
+      public IActionResult editItem(int id, Item item)
+      {
+        var result = this._repo.editItemById(id, item);
+        if (result == null) {
+          return NotFound();
+        }
+        return Ok(result);
+      }
     }
 }
