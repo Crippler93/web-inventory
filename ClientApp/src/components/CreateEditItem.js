@@ -5,13 +5,13 @@ import { ItemForm } from './ItemForm'
 
 export const CreateEditItem = () => {
 
-  const { errors, updateItem, fetchItemFormById, createItem} = useItemContext()
+  const { errors, updateItem, fetchItemById, createItem} = useItemContext()
   const history = useHistory()
   const {id} = useParams()
 
   useEffect(() => {
     if (id) {
-      fetchItemFormById(id)
+      fetchItemById(id)
     }
   }, [id])
   

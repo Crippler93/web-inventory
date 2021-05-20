@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Inventory.Data;
+using Inventory.Dtos;
 
 namespace Inventory.Repository {
   public class InventoryRepository: IInventoryRepository {
@@ -29,7 +30,7 @@ namespace Inventory.Repository {
       return this._context.Items.Find(id);
     }
 
-    public Item editItemById(int id, Item newItem)
+    public Item editItemById(int id, ItemDTO newItem)
     {
       var item = this._context.Items.Find(id);
       if (item == null) {

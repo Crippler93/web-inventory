@@ -8,11 +8,10 @@ export const useItemContext = () => {
 
 export const ItemProvider = ({ children }) => {
   const [items, setItems] = useState([]);
-  const [item, setItem] = useState({});
-  const [itemForm, setItemForm] = useState({
+  const [item, setItem] = useState({
     name: '',
-    quantity: '1'
-  })
+    quantity: '1'    
+  });
   const [itemId, setItemId] = useState("");
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -43,20 +42,6 @@ export const ItemProvider = ({ children }) => {
     }
   }
 
-  const fetchItemFormById = async id => {
-    setLoading(true)
-    try {
-      const response = await fetch("inventory/" + id)
-      const data = await response.json()
-      setItemForm({ name: data.name, quantity: data.quantity })
-      setItemId(data.itemId)
-    } catch (error) {
-      setErrors([error])
-    } finally {
-      setLoading(false)
-    }
-  }
-
   const formatDate = (string) => {
     const date = new Date(string);
     return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
@@ -64,7 +49,7 @@ export const ItemProvider = ({ children }) => {
 
   const updateForm = (event) => {
     const { name, value } = event.target;
-    setItemForm({...itemForm, [name]: value})
+    setItem({...item, [name]: value})
   };
 
   const createItem = async (event) => {
@@ -72,7 +57,7 @@ export const ItemProvider = ({ children }) => {
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(itemForm),
+      body: JSON.stringify(item),
     };
     try {
       const result = await fetch("inventory", requestOptions);
@@ -99,7 +84,7 @@ export const ItemProvider = ({ children }) => {
     const requestOptions = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(itemForm),
+      body: JSON.stringify(item),
     };
     try {
       const result = await fetch(`inventory/${itemId}`, requestOptions);
@@ -123,7 +108,7 @@ export const ItemProvider = ({ children }) => {
   }
 
   const resetItem = () => {
-    setItemForm({
+    setItem({
       name: '',
       quantity: '1'
     })
@@ -135,14 +120,12 @@ export const ItemProvider = ({ children }) => {
         items,
         item,
         loading,
-        itemForm,
         errors,
         fetchItems,
         fetchItemById,
         updateForm,
         createItem,
         updateItem,
-        fetchItemFormById,
       }}
     >
       {children}

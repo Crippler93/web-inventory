@@ -4,6 +4,7 @@ using System.Linq;
 
 using Inventory.Repository;
 using Inventory.Data;
+using Inventory.Dtos;
 
 namespace Inventory.Controllers
 {
@@ -39,7 +40,7 @@ namespace Inventory.Controllers
       }
 
       [HttpPut("{id:int}")]
-      public IActionResult editItem(int id, Item item)
+      public IActionResult editItem(int id, ItemDTO item)
       {
         var result = this._repo.editItemById(id, item);
         if (result == null) {
