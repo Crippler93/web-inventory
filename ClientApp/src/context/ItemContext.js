@@ -9,10 +9,12 @@ export const useItemContext = () => {
 export const ItemProvider = ({ children }) => {
   const [items, setItems] = useState([]);
   const [item, setItem] = useState({});
-  const [name, setName] = useState("");
+  const [itemForm, setItemForm] = useState({
+    name: '',
+    quantity: '1'
+  })
   const [itemId, setItemId] = useState("");
   const [errors, setErrors] = useState([]);
-  const [quantity, setQuantity] = useState("1");
   const [loading, setLoading] = useState(true);
 
   const fetchItems = async () => {
@@ -33,8 +35,20 @@ export const ItemProvider = ({ children }) => {
       const response = await fetch("inventory/" + id)
       const data = await response.json()
       setItem({...data, createdAt: formatDate(data.createdAt)})
-      setName(data.name)
-      setQuantity(data.quantity)
+      setItemId(data.itemId)
+    } catch (error) {
+      setErrors([error])
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const fetchItemFormById = async id => {
+    setLoading(true)
+    try {
+      const response = await fetch("inventory/" + id)
+      const data = await response.json()
+      setItemForm({ name: data.name, quantity: data.quantity })
       setItemId(data.itemId)
     } catch (error) {
       setErrors([error])
@@ -50,16 +64,7 @@ export const ItemProvider = ({ children }) => {
 
   const updateForm = (event) => {
     const { name, value } = event.target;
-    switch (name) {
-      case "name":
-        setName(value);
-        break;
-      case "quantity":
-        setQuantity(value);
-        break;
-      default:
-        break;
-    }
+    setItemForm({...itemForm, [name]: value})
   };
 
   const createItem = async (event) => {
@@ -67,7 +72,7 @@ export const ItemProvider = ({ children }) => {
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, quantity }),
+      body: JSON.stringify(itemForm),
     };
     try {
       const result = await fetch("inventory", requestOptions);
@@ -81,10 +86,8 @@ export const ItemProvider = ({ children }) => {
         return
       }
       const data = await result.json();
-      setName("");
       setErrors([])
-      setQuantity("1");
-
+      resetItem()
       return data
     } catch (error) {
       setErrors([error.message])
@@ -96,7 +99,7 @@ export const ItemProvider = ({ children }) => {
     const requestOptions = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, quantity }),
+      body: JSON.stringify(itemForm),
     };
     try {
       const result = await fetch(`inventory/${itemId}`, requestOptions);
@@ -110,14 +113,20 @@ export const ItemProvider = ({ children }) => {
         return
       }
       const data = await result.json();
-      setName("")
       setErrors([])
-      setQuantity("1")
+      resetItem()
       setItemId("")
       return data
     } catch (error) {
       setErrors([error.message])
     }
+  }
+
+  const resetItem = () => {
+    setItemForm({
+      name: '',
+      quantity: '1'
+    })
   }
 
   return (
@@ -126,14 +135,14 @@ export const ItemProvider = ({ children }) => {
         items,
         item,
         loading,
-        name,
-        quantity,
+        itemForm,
         errors,
         fetchItems,
         fetchItemById,
         updateForm,
         createItem,
         updateItem,
+        fetchItemFormById,
       }}
     >
       {children}
