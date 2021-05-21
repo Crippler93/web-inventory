@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useItemContext } from '../context/ItemContext'
+import { useItemContext } from './context/ItemContext'
 
 export const ItemForm = ({onSubmit, buttonLabel="Create"}) => {
 

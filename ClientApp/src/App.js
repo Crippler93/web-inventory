@@ -4,10 +4,10 @@ import { Layout } from './components/Layout';
 import { Home } from './components/Home';
 import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
-import { Items } from './components/Items';
-import ItemProvider from './context/ItemContext';
-import { ItemDetail } from './components/ItemDetail';
-import { CreateEditItem } from './components/CreateEditItem';
+import { Items } from './components/Item/Items';
+import ItemProvider from './components/Item/context/ItemContext';
+import { ItemDetail } from './components/Item/ItemDetail';
+import { CreateEditItem } from './components/Item/CreateEditItem';
 
 import './custom.css'
 

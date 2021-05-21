@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Link, useHistory, useParams } from 'react-router-dom'
-import { useItemContext } from '../context/ItemContext'
+import { useItemContext } from './context/ItemContext'
 import { ItemForm } from './ItemForm'
 
 export const CreateEditItem = () => {

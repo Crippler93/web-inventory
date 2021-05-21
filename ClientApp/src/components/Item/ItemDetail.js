@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { useItemContext } from '../context/ItemContext'
+import { useItemContext } from './context/ItemContext'
 
 export const ItemDetail = () => {
   const {getItemById, item, loading} = useItemContext()

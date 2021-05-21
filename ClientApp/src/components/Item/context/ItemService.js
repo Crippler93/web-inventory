@@ -1,6 +1,5 @@
 import React from "react";
 
-
 export const withFetch = (C) => (props) => {
   const fetchItems = async () => {
     const result = await fetch("inventory");

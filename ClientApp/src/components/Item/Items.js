@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import { useItemContext } from "../context/ItemContext";
+import { useItemContext } from "./context/ItemContext";
 
 export const Items = () => {
 
