@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
+import { withFetch } from "./ItemService";
 
 const ItemContext = createContext({});
 
@@ -6,7 +7,7 @@ export const useItemContext = () => {
   return useContext(ItemContext);
 };
 
-export const ItemProvider = ({ children }) => {
+const ItemProvider = ({ children, fetchItems, fetchItemById, postItemRequest, updateItemRequest }) => {
   const [items, setItems] = useState([]);
   const [item, setItem] = useState({
     name: '',
@@ -16,9 +17,8 @@ export const ItemProvider = ({ children }) => {
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchItems = async () => {
-    const response = await fetch("inventory");
-    const data = await response.json();
+  const getItems = async () => {
+    const {data} = await fetchItems()
     setItems(
       data.map((item) => ({
         ...item,
@@ -28,11 +28,10 @@ export const ItemProvider = ({ children }) => {
     setLoading(false);
   };
 
-  const fetchItemById = async id => {
+  const getItemById = async id => {
     setLoading(true)
     try {
-      const response = await fetch("inventory/" + id)
-      const data = await response.json()
+      const {data} = await fetchItemById(id)
       setItem({...data, createdAt: formatDate(data.createdAt)})
       setItemId(data.itemId)
     } catch (error) {
@@ -54,15 +53,9 @@ export const ItemProvider = ({ children }) => {
 
   const createItem = async (event) => {
     event.preventDefault();
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(item),
-    };
     try {
-      const result = await fetch("inventory", requestOptions);
+      const {result, data} = await postItemRequest(item)
       if (result.status !== 200) {
-        const data = await result.json()
         const errors = Object.entries(data.errors).map(error => {
           const [name, errors] = error
           return {name, errors}
@@ -70,7 +63,6 @@ export const ItemProvider = ({ children }) => {
         setErrors(errors)
         return
       }
-      const data = await result.json();
       setErrors([])
       resetItem()
       return data
@@ -81,15 +73,9 @@ export const ItemProvider = ({ children }) => {
 
   const updateItem = async event => {
     event.preventDefault();
-    const requestOptions = {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(item),
-    };
     try {
-      const result = await fetch(`inventory/${itemId}`, requestOptions);
+      const {result, data} = await updateItemRequest(itemId, item)
       if (result.status !== 200) {
-        const data = await result.json()
         const errors = Object.entries(data.errors).map(error => {
           const [name, errors] = error
           return {name, errors}
@@ -97,7 +83,6 @@ export const ItemProvider = ({ children }) => {
         setErrors(errors)
         return
       }
-      const data = await result.json();
       setErrors([])
       resetItem()
       setItemId("")
@@ -115,20 +100,23 @@ export const ItemProvider = ({ children }) => {
   }
 
   return (
-    <ItemContext.Provider
-      value={{
-        items,
-        item,
-        loading,
-        errors,
-        fetchItems,
-        fetchItemById,
-        updateForm,
-        createItem,
-        updateItem,
-      }}
-    >
-      {children}
-    </ItemContext.Provider>
+      <ItemContext.Provider
+        value={{
+          items,
+          item,
+          loading,
+          errors,
+          getItems,
+          getItemById,
+          updateForm,
+          createItem,
+          updateItem,
+          resetItem,
+        }}
+      >
+        {children}
+      </ItemContext.Provider>
   );
 };
+
+export default withFetch(ItemProvider);

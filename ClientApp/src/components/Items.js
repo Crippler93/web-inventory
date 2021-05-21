@@ -5,10 +5,10 @@ import { useItemContext } from "../context/ItemContext";
 
 export const Items = () => {
 
-  const { items, fetchItems, loading } = useItemContext()
+  const { items, getItems, loading } = useItemContext()
 
   useEffect(() => {
-    fetchItems();
+    getItems();
   }, []);
 
   const renderTable = () => (

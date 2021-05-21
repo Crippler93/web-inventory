@@ -3,11 +3,11 @@ import { Link, useParams } from 'react-router-dom'
 import { useItemContext } from '../context/ItemContext'
 
 export const ItemDetail = () => {
-  const {fetchItemById, item, loading} = useItemContext()
+  const {getItemById, item, loading} = useItemContext()
   const {id} = useParams()
 
   useEffect(() => {
-    fetchItemById(id)
+    getItemById(id)
   }, [id])
 
   return (

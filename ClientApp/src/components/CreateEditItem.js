@@ -5,14 +5,15 @@ import { ItemForm } from './ItemForm'
 
 export const CreateEditItem = () => {
 
-  const { errors, updateItem, fetchItemById, createItem} = useItemContext()
+  const { errors, updateItem, getItemById, createItem, resetItem} = useItemContext()
   const history = useHistory()
   const {id} = useParams()
 
   useEffect(() => {
-    if (id) {
-      fetchItemById(id)
-    }
+    id ?
+      getItemById(id):
+      resetItem()
+    
   }, [id])
   
   const handleSubmit = async event => {
@@ -55,7 +56,7 @@ export const CreateEditItem = () => {
           </div>
         )
       }
-      <ItemForm onSubmit={handleSubmit} buttonLabel="Edit"></ItemForm>
+      <ItemForm onSubmit={handleSubmit} buttonLabel={id ? "Edit" : "Create"}></ItemForm>
     </div>
   )
 }
