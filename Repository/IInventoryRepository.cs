@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 
 using Inventory.Data;
+using Inventory.Dtos;
 
 namespace Inventory.Repository
 {
@@ -12,6 +13,6 @@ namespace Inventory.Repository
 
     public Item getById(int id);
 
-    public Item editItemById(int id, Item item);
+    public Item editItemById(int id, ItemDTO item);
   }
 }

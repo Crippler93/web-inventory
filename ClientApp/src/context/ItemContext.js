@@ -8,11 +8,12 @@ export const useItemContext = () => {
 
 export const ItemProvider = ({ children }) => {
   const [items, setItems] = useState([]);
-  const [item, setItem] = useState({});
-  const [name, setName] = useState("");
+  const [item, setItem] = useState({
+    name: '',
+    quantity: '1'    
+  });
   const [itemId, setItemId] = useState("");
   const [errors, setErrors] = useState([]);
-  const [quantity, setQuantity] = useState("1");
   const [loading, setLoading] = useState(true);
 
   const fetchItems = async () => {
@@ -33,8 +34,6 @@ export const ItemProvider = ({ children }) => {
       const response = await fetch("inventory/" + id)
       const data = await response.json()
       setItem({...data, createdAt: formatDate(data.createdAt)})
-      setName(data.name)
-      setQuantity(data.quantity)
       setItemId(data.itemId)
     } catch (error) {
       setErrors([error])
@@ -50,16 +49,7 @@ export const ItemProvider = ({ children }) => {
 
   const updateForm = (event) => {
     const { name, value } = event.target;
-    switch (name) {
-      case "name":
-        setName(value);
-        break;
-      case "quantity":
-        setQuantity(value);
-        break;
-      default:
-        break;
-    }
+    setItem({...item, [name]: value})
   };
 
   const createItem = async (event) => {
@@ -67,7 +57,7 @@ export const ItemProvider = ({ children }) => {
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, quantity }),
+      body: JSON.stringify(item),
     };
     try {
       const result = await fetch("inventory", requestOptions);
@@ -81,10 +71,8 @@ export const ItemProvider = ({ children }) => {
         return
       }
       const data = await result.json();
-      setName("");
       setErrors([])
-      setQuantity("1");
-
+      resetItem()
       return data
     } catch (error) {
       setErrors([error.message])
@@ -96,7 +84,7 @@ export const ItemProvider = ({ children }) => {
     const requestOptions = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, quantity }),
+      body: JSON.stringify(item),
     };
     try {
       const result = await fetch(`inventory/${itemId}`, requestOptions);
@@ -110,14 +98,20 @@ export const ItemProvider = ({ children }) => {
         return
       }
       const data = await result.json();
-      setName("")
       setErrors([])
-      setQuantity("1")
+      resetItem()
       setItemId("")
       return data
     } catch (error) {
       setErrors([error.message])
     }
+  }
+
+  const resetItem = () => {
+    setItem({
+      name: '',
+      quantity: '1'
+    })
   }
 
   return (
@@ -126,8 +120,6 @@ export const ItemProvider = ({ children }) => {
         items,
         item,
         loading,
-        name,
-        quantity,
         errors,
         fetchItems,
         fetchItemById,

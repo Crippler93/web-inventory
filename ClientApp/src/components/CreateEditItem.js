@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
 import { Link, useHistory, useParams } from 'react-router-dom'
 import { useItemContext } from '../context/ItemContext'
+import { ItemForm } from './ItemForm'
 
-export const EditItem = () => {
+export const CreateEditItem = () => {
 
-  const {name, quantity, errors, updateForm, updateItem, fetchItemById} = useItemContext()
+  const { errors, updateItem, fetchItemById, createItem} = useItemContext()
   const history = useHistory()
   const {id} = useParams()
 
@@ -16,9 +17,16 @@ export const EditItem = () => {
   
   const handleSubmit = async event => {
     try {
-      const item = await updateItem(event)
-      if (item.itemId) {
-        history.push(`/items/${item.itemId}`)
+      if (id) {
+        const item = await updateItem(event)
+        if (item.itemId) {
+          history.push(`/items/${item.itemId}`)
+        }
+      } else {
+        const itemId = await createItem(event)
+        if (itemId) {
+          history.push('items')
+        }
       }
     } catch (error) {
       console.error(error);
@@ -27,8 +35,8 @@ export const EditItem = () => {
 
   return (
     <div>
-      <h1>Edit item:</h1>
-      <Link to={`/items/${id}`}>Go Back</Link>
+      <h1>{id ? "Edit item:" : "Create new item:"}</h1>
+      {id && (<Link to={`/items/${id}`}>Go Back</Link>)}
       {
         !!errors.length && (
           <div className="alert alert-danger" role="alert">
@@ -47,19 +55,7 @@ export const EditItem = () => {
           </div>
         )
       }
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Name</label>
-          <input className="form-control" type="text" value={name} name="name" onChange={updateForm}></input>
-        </div>
-        <div className="form-group">
-          <label>Quantity</label>
-          <input className="form-control" type="number" value={quantity} name="quantity" onChange={updateForm}></input>
-        </div>
-        <div className="form-group">
-          <button type="submit" className="btn btn-primary">Edit</button>
-        </div>
-      </form>
+      <ItemForm onSubmit={handleSubmit} buttonLabel="Edit"></ItemForm>
     </div>
   )
 }
