@@ -14,5 +14,7 @@ namespace Inventory.Repository
     public Item getById(int id);
 
     public Item editItemById(int id, ItemDTO item);
+
+    public IEnumerable<CatalogItem> getCategories();
   }
 }

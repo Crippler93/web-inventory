@@ -35,11 +35,18 @@ export const withFetch = (C) => (props) => {
     return {result, data}
   }
 
+  const fetchCategories = async () => {
+    const result = await fetch(`inventory/categories`);
+    const data = await result.json()
+    return {result, data}
+  }
+
   return (
     <C updateItemRequest={updateItem}
     postItemRequest={postItemRequest}
     fetchItems={fetchItems}
     fetchItemById={fetchItemById}
+    fetchCategories={fetchCategories}
     {...props}>
     </C>
   );

@@ -5,9 +5,13 @@ import { ItemForm } from './ItemForm'
 
 export const CreateEditItem = () => {
 
-  const { errors, updateItem, getItemById, createItem, resetItem} = useItemContext()
+  const { errors, categories, getCategories, updateItem, getItemById, createItem, resetItem} = useItemContext()
   const history = useHistory()
   const {id} = useParams()
+
+  useEffect(() => {
+    getCategories()
+  }, [])
 
   useEffect(() => {
     id ?
@@ -56,7 +60,7 @@ export const CreateEditItem = () => {
           </div>
         )
       }
-      <ItemForm onSubmit={handleSubmit} buttonLabel={id ? "Edit" : "Create"}></ItemForm>
+      <ItemForm categories={categories} onSubmit={handleSubmit} buttonLabel={id ? "Edit" : "Create"}></ItemForm>
     </div>
   )
 }

@@ -7,7 +7,7 @@ export const useItemContext = () => {
   return useContext(ItemContext);
 };
 
-const ItemProvider = ({ children, fetchItems, fetchItemById, postItemRequest, updateItemRequest }) => {
+const ItemProvider = ({ children, fetchItems, fetchItemById, fetchCategories, postItemRequest, updateItemRequest }) => {
   const [items, setItems] = useState([]);
   const [item, setItem] = useState({
     name: '',
@@ -15,6 +15,7 @@ const ItemProvider = ({ children, fetchItems, fetchItemById, postItemRequest, up
   });
   const [itemId, setItemId] = useState("");
   const [errors, setErrors] = useState([]);
+  const [categories, setCategories] = useState([])
   const [loading, setLoading] = useState(true);
 
   const getItems = async () => {
@@ -27,6 +28,11 @@ const ItemProvider = ({ children, fetchItems, fetchItemById, postItemRequest, up
     );
     setLoading(false);
   };
+
+  const getCategories = async () => {
+    const {data} = await fetchCategories()
+    setCategories(data)
+  }
 
   const getItemById = async id => {
     setLoading(true)
@@ -106,12 +112,14 @@ const ItemProvider = ({ children, fetchItems, fetchItemById, postItemRequest, up
           item,
           loading,
           errors,
+          categories,
           getItems,
           getItemById,
           updateForm,
           createItem,
           updateItem,
           resetItem,
+          getCategories,
         }}
       >
         {children}

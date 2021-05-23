@@ -18,10 +18,12 @@ export const ItemDetail = () => {
         (loading) ? <p>Loading info from server...</p> : (
           <div>
             <span><b>Name:</b> {item.name}</span>
-            <br></br>
+            <br/>
             <span><b>Created At:</b> {item.createdAt}</span>
-            <br></br>
+            <br/>
             <span><b>Quantity:</b> {item.quantity}</span>
+            <br/>
+            <span title={item?.catalogItem?.description}><b>Category:</b> {item?.catalogItem?.value}</span>
             <div className="d-flex flex-row-reverse">
               <Link to={`/items/edit/${item.itemId}`}>
                 <button className="btn btn-sm btn-primary">Edit</button>

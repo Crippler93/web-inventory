@@ -48,5 +48,11 @@ namespace Inventory.Controllers
         }
         return Ok(result);
       }
+
+      [HttpGet("categories")]
+      public IEnumerable<CatalogItem> getCategories()
+      {
+        return this._repo.getCategories();
+      }
     }
 }

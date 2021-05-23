@@ -43,5 +43,10 @@ namespace Inventory.Repository {
       this._context.SaveChanges();
       return item;
     }
+
+    public IEnumerable<CatalogItem> getCategories()
+    {
+      return this._context.CatalogItem.Where(c => c.CatalogCode == "item_category_ctg");
+    }
   }
 }
