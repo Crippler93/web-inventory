@@ -24,7 +24,7 @@ namespace Inventory.Controllers
       } 
 
       [HttpPost]
-      public int createItem(Item item) {
+      public int createItem(ItemDTO item) {
         return this._repo.create(item);
       }
 

@@ -13,6 +13,7 @@ namespace Inventory.Data {
     public int Quantity { get; set; }
     [Column("created_at")]
     public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public int CatalogItemId { get; set; }
     [Required]
     public virtual CatalogItem CatalogItem { get; set; }
   }

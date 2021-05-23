@@ -23,7 +23,15 @@ export const ItemDetail = () => {
             <br/>
             <span><b>Quantity:</b> {item.quantity}</span>
             <br/>
-            <span title={item?.catalogItem?.description}><b>Category:</b> {item?.catalogItem?.value}</span>
+            <div>
+              <b>Category:</b> 
+              <dl className="ml-3 mt-2">
+                <dt>Name</dt>
+                <dd>{item?.catalogItem?.value}</dd>
+                <dt>Decription</dt>
+                <dd>{item?.catalogItem?.description}</dd>
+              </dl>
+            </div>
             <div className="d-flex flex-row-reverse">
               <Link to={`/items/edit/${item.itemId}`}>
                 <button className="btn btn-sm btn-primary">Edit</button>

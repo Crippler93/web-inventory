@@ -20,11 +20,12 @@ namespace Inventory.Repository {
       return this._context.Items.ToList<Item>();
     }
 
-    public int create(Item item) 
+    public int create(ItemDTO item) 
     {
-      this._context.Items.Add(item);
+      var newItem = new Item {Name=item.Name, Quantity=item.Quantity, CatalogItemId=item.CatalogItemId};
+      this._context.Items.Add(newItem);
       this._context.SaveChanges();
-      return item.ItemId;
+      return newItem.ItemId;
     }
 
     public Item getById(int id)
@@ -40,6 +41,7 @@ namespace Inventory.Repository {
       }
       item.Name = newItem.Name;
       item.Quantity = newItem.Quantity;
+      item.CatalogItemId = newItem.CatalogItemId;
       this._context.SaveChanges();
       return item;
     }

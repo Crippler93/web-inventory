@@ -9,7 +9,7 @@ namespace Inventory.Repository
   {
     public IEnumerable<Item> getAll();
 
-    public int create(Item item);
+    public int create(ItemDTO item);
 
     public Item getById(int id);
 
