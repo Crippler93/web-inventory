@@ -4,6 +4,7 @@ using Inventory.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Inventory.Migrations
 {
@@ -18,19 +19,44 @@ namespace Inventory.Migrations
                 .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Inventory.Data.Category", b =>
+            modelBuilder.Entity("Inventory.Data.Catalog", b =>
                 {
-                    b.Property<int>("CategoryId")
+                    b.Property<string>("catalogCode")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("catalogCode");
+
+                    b.ToTable("Catalogs");
+                });
+
+            modelBuilder.Entity("Inventory.Data.CatalogItem", b =>
+                {
+                    b.Property<int>("CatalogItemId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Name")
+                    b.Property<string>("catalogCode")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("CategoryId");
+                    b.Property<string>("imageURL")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Categories");
+                    b.Property<string>("value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CatalogItemId");
+
+                    b.HasIndex("catalogCode");
+
+                    b.ToTable("CatalogItem");
                 });
 
             modelBuilder.Entity("Inventory.Data.Item", b =>
@@ -40,7 +66,7 @@ namespace Inventory.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int?>("CatalogItemId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
@@ -56,18 +82,32 @@ namespace Inventory.Migrations
 
                     b.HasKey("ItemId");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("CatalogItemId");
 
                     b.ToTable("Items");
                 });
 
+            modelBuilder.Entity("Inventory.Data.CatalogItem", b =>
+                {
+                    b.HasOne("Inventory.Data.Catalog", "Catalog")
+                        .WithMany("items")
+                        .HasForeignKey("catalogCode");
+
+                    b.Navigation("Catalog");
+                });
+
             modelBuilder.Entity("Inventory.Data.Item", b =>
                 {
-                    b.HasOne("Inventory.Data.Category", "Category")
+                    b.HasOne("Inventory.Data.CatalogItem", "CatalogItem")
                         .WithMany()
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CatalogItemId");
 
-                    b.Navigation("Category");
+                    b.Navigation("CatalogItem");
+                });
+
+            modelBuilder.Entity("Inventory.Data.Catalog", b =>
+                {
+                    b.Navigation("items");
                 });
 #pragma warning restore 612, 618
         }

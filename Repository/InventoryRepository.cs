@@ -17,7 +17,7 @@ namespace Inventory.Repository {
 
     public IEnumerable<Item> getAll() 
     {
-      return this._context.Items.Include(i => i.Category).ToList<Item>();
+      return this._context.Items.ToList<Item>();
     }
 
     public int create(Item item) 
@@ -29,7 +29,7 @@ namespace Inventory.Repository {
 
     public Item getById(int id)
     {
-      return this._context.Items.Find(id);
+      return this._context.Items.Include(i => i.CatalogItem).FirstOrDefault(i => i.ItemId == id);
     }
 
     public Item editItemById(int id, ItemDTO newItem)

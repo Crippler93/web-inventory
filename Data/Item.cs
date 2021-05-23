@@ -14,6 +14,6 @@ namespace Inventory.Data {
     [Column("created_at")]
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     [Required]
-    public virtual Category Category { get; set; }
+    public virtual CatalogItem CatalogItem { get; set; }
   }
 }
