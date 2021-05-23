@@ -13,5 +13,7 @@ namespace Inventory.Data {
     public int Quantity { get; set; }
     [Column("created_at")]
     public DateTime CreatedAt { get; set; } = DateTime.Now;
+    [Required]
+    public virtual Category Category { get; set; }
   }
 }

@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Inventory.Data;
+using Microsoft.EntityFrameworkCore;
+
 using Inventory.Dtos;
 
 namespace Inventory.Repository {
@@ -15,7 +17,7 @@ namespace Inventory.Repository {
 
     public IEnumerable<Item> getAll() 
     {
-      return this._context.Items.ToList<Item>();
+      return this._context.Items.Include(i => i.Category).ToList<Item>();
     }
 
     public int create(Item item) 
