@@ -1,0 +1,45 @@
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+
+@media screen and (max-width: 992px) {
+  #test {
+    transition: height 0.1s ease-in-out, visibility 0.1s linear, opacity 0.1s linear;
+    &.hide {
+      height: 0px;
+      visibility: hidden;
+      opacity: 0;
+    }
+    &.show {
+      height: 210px;
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #test {
+    &.show {
+      height: 190px;
+    }
+  }
+}
+
+

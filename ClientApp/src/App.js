@@ -8,6 +8,7 @@ import { Items } from './components/Item/Items';
 import ItemProvider from './components/Item/context/ItemContext';
 import { ItemDetail } from './components/Item/ItemDetail';
 import { CreateEditItem } from './components/Item/CreateEditItem';
+import { ItemToast } from './components/Item/ItemToast';
 
 import './custom.css'
 
@@ -23,6 +24,7 @@ export default class App extends Component {
           <Route exact path='/items' component={Items} />
           <Route exact path='/create-item' component={CreateEditItem} />
           <Route exact path='/items/edit/:id' component={CreateEditItem} />
+          <ItemToast/>
         </ItemProvider>
         <Route path='/counter' component={Counter} />
         <Route path='/fetch-data' component={FetchData} />

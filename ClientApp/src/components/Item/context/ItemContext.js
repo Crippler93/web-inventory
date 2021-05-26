@@ -13,13 +13,32 @@ const ItemProvider = ({ children, fetchItems, fetchItemById, fetchCategories, po
     name: '',
     quantity: '1'    
   });
-  const [itemId, setItemId] = useState("");
-  const [errors, setErrors] = useState([]);
+  const [itemId, setItemId] = useState("")
+  const [errors, setErrors] = useState([])
   const [categories, setCategories] = useState([])
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true)
+  const [toastActive, setToastActive] = useState(false)
+  const [toastBody, setToastBody] = useState("Body")
+  const [toastTitle, setToastTitle] = useState("Title")
+
+  const closeToast = () => {
+    setTimeout(() => {
+      setToastActive(false);
+    }, 500)
+  }
+
+  const openToast = (title, body, time=1500) => {
+    setToastTitle(title)
+    setToastBody(body)
+    setToastActive(true)
+    setTimeout(() => {
+      setToastActive(false)
+    }, time)
+  }
 
   const getItems = async () => {
     const {data} = await fetchItems()
+    openToast("Success","Items request done")
     setItems(
       data.map((item) => ({
         ...item,
@@ -113,6 +132,9 @@ const ItemProvider = ({ children, fetchItems, fetchItemById, fetchCategories, po
           loading,
           errors,
           categories,
+          toastActive,
+          toastBody,
+          toastTitle,
           getItems,
           getItemById,
           updateForm,
@@ -120,6 +142,8 @@ const ItemProvider = ({ children, fetchItems, fetchItemById, fetchCategories, po
           updateItem,
           resetItem,
           getCategories,
+          closeToast,
+          openToast,
         }}
       >
         {children}
