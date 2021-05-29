@@ -36,7 +36,10 @@ export const withFetch = (C) => (props) => {
   }
 
   const fetchCategories = async () => {
-    const result = await fetch(`inventory/categories`);
+    const params = new URLSearchParams({
+      name: 'item_category_ctg'
+    })
+    const result = await fetch(`inventory/categories?${params}`);
     const data = await result.json()
     return {result, data}
   }

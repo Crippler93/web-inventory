@@ -50,9 +50,9 @@ namespace Inventory.Controllers
       }
 
       [HttpGet("categories")]
-      public IEnumerable<CatalogItem> getCategories()
+      public IEnumerable<CatalogItem> getCategories([FromQuery()] string name)
       {
-        return this._repo.getCategories();
+        return this._repo.getCategories(name);
       }
     }
 }

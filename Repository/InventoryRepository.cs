@@ -46,9 +46,12 @@ namespace Inventory.Repository {
       return item;
     }
 
-    public IEnumerable<CatalogItem> getCategories()
+    public IEnumerable<CatalogItem> getCategories(string code)
     {
-      return this._context.CatalogItem.Where(c => c.CatalogCode == "item_category_ctg");
+      if (code == "all") {
+        return this._context.CatalogItem.ToList();
+      }
+      return this._context.CatalogItem.Where(c => c.CatalogCode == code);
     }
   }
 }

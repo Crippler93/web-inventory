@@ -12,6 +12,7 @@ import { ItemToast } from './components/Item/ItemToast';
 
 import './custom.css'
 import { CategoryList } from './components/Category/List';
+import { CategoryContext } from './components/Category/context/CategoryContext';
 
 export default class App extends Component {
   static displayName = App.name;
@@ -25,9 +26,11 @@ export default class App extends Component {
           <Route exact path='/items' component={Items} />
           <Route exact path='/create-item' component={CreateEditItem} />
           <Route exact path='/items/edit/:id' component={CreateEditItem} />
-          <Route exact path='/category' component={CategoryList}></Route>
           <ItemToast/>
         </ItemProvider>
+        <CategoryContext>
+          <Route exact path='/category' component={CategoryList}></Route>
+        </CategoryContext>
         <Route path='/counter' component={Counter} />
         <Route path='/fetch-data' component={FetchData} />
       </Layout>

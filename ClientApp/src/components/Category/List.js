@@ -1,18 +1,19 @@
 import React, { useEffect } from 'react'
-import {useItemContext} from '../Item/context/ItemContext'
+import {useCategoryContext} from './context/CategoryContext'
 
 export const CategoryList = () => {
-  const {getCategories, categories} = useItemContext()
+  const {getCategories, categories} = useCategoryContext()
 
   useEffect(() => {
     getCategories()
   }, [])
 
   return (
-    <table class="table">
+    <table className="table">
       <thead>
         <tr>
           <th scope="col">#</th>
+          <th scope="col">Catalog Code</th>
           <th scope="col">Value</th>
           <th scope="col">Description</th>
         </tr>
@@ -21,6 +22,7 @@ export const CategoryList = () => {
         {categories.map(category => (
           <tr>
             <td>{category.catalogItemId}</td>
+            <td>{category.catalogCode}</td>
             <td>{category.value}</td>
             <td>{category.description}</td>
           </tr>
