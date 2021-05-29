@@ -28,13 +28,10 @@ export const NavMenu = () => {
                 <Link className={`nav-link ${isLocation("/")}`} aria-current="page" to="/">Home</Link>
               </li>
               <li className="nav-item">
+                <Link className={`nav-link ${isLocation("/category")}`} to="/category">Category</Link>
+              </li>
+              <li className="nav-item">
                 <Link className={`nav-link ${isLocation("/items")}`} to="/items">Items</Link>
-              </li>
-              <li className="nav-item">
-                <Link className={`nav-link ${isLocation("/counter")}`} to="/counter">Counter</Link>
-              </li>
-              <li className="nav-item">
-                <Link className={`nav-link ${isLocation("/fetch-data")}`} to="/fetch-data">Fetch Data</Link>
               </li>
             </ul>
             <form className="d-flex">

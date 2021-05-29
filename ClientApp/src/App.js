@@ -11,6 +11,7 @@ import { CreateEditItem } from './components/Item/CreateEditItem';
 import { ItemToast } from './components/Item/ItemToast';
 
 import './custom.css'
+import { CategoryList } from './components/Category/List';
 
 export default class App extends Component {
   static displayName = App.name;
@@ -24,6 +25,7 @@ export default class App extends Component {
           <Route exact path='/items' component={Items} />
           <Route exact path='/create-item' component={CreateEditItem} />
           <Route exact path='/items/edit/:id' component={CreateEditItem} />
+          <Route exact path='/category' component={CategoryList}></Route>
           <ItemToast/>
         </ItemProvider>
         <Route path='/counter' component={Counter} />
