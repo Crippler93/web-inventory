@@ -54,5 +54,16 @@ namespace Inventory.Controllers
       {
         return this._repo.getCategories(name);
       }
+
+      [HttpPost("entry/{id:int}")]
+      public IActionResult addQuantity(int id, EntryDTO entryDTO)
+      {
+        var item = this._repo.addEntry(id, entryDTO);
+        if (item == null)
+        {
+          return NotFound();
+        }
+        return Ok(item);
+      }
     }
 }

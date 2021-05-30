@@ -22,7 +22,7 @@ namespace Inventory.Repository {
 
     public int create(ItemDTO item) 
     {
-      var newItem = new Item {Name=item.Name, Quantity=item.Quantity, CatalogItemId=item.CatalogItemId};
+      var newItem = new Item {Name=item.Name, CatalogItemId=item.CatalogItemId};
       this._context.Items.Add(newItem);
       this._context.SaveChanges();
       return newItem.ItemId;
@@ -40,7 +40,6 @@ namespace Inventory.Repository {
         return null;
       }
       item.Name = newItem.Name;
-      item.Quantity = newItem.Quantity;
       item.CatalogItemId = newItem.CatalogItemId;
       this._context.SaveChanges();
       return item;
@@ -52,6 +51,18 @@ namespace Inventory.Repository {
         return this._context.CatalogItem.ToList();
       }
       return this._context.CatalogItem.Where(c => c.CatalogCode == code);
+    }
+
+    public Item addEntry(int id, EntryDTO entryDTO)
+    {
+      var item = this._context.Items.Find(id);
+      if (item == null)
+      {
+        return null;
+      }
+      item.Quantity = item.Quantity + entryDTO.Quantity;
+      this._context.SaveChanges();
+      return item;
     }
   }
 }

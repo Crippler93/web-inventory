@@ -18,7 +18,7 @@ export const Items = () => {
           <th>Name</th>
           <th>Quantity</th>
           <th>Created At</th>
-          <th></th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -27,7 +27,10 @@ export const Items = () => {
             <td>{item.name}</td>
             <td>{item.quantity}</td>
             <td>{item.createdAt}</td>
-            <td><Link to={`items/${item.itemId}`}>details</Link></td>
+            <td>
+              <Link className="me-3" to={`items/${item.itemId}`}>Details</Link>
+              <Link to={`add-entry/${item.itemId}`}>Add entry</Link>
+            </td>
           </tr>
         ))}
       </tbody>
@@ -44,7 +47,7 @@ export const Items = () => {
       ) : (
         renderTable()
       )}
-      <Link to="create-item">Create item</Link>
+      <Link className="me-3" to="create-item">Create item</Link>
     </div>
     
   );
