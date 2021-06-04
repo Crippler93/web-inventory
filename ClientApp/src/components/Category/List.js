@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react'
+
+import { Table } from '../Table'
 import {useCategoryContext} from './context/CategoryContext'
 
 export const CategoryList = () => {
@@ -8,26 +10,27 @@ export const CategoryList = () => {
     getCategories()
   }, [])
 
+  const renderTable = () => {
+    const tableProps = {
+      columns: ['#', 'Catalog Code', 'Value', 'Description'],
+      idKey: 'catalogItemId',
+      row: ['catalogItemId', 'catalogCode', 'value', 'description'],
+      actions: [
+        {
+          url: 'category',
+          needId: true,
+          linkName: 'Details'
+        }
+      ],
+      items: categories
+    }
+    return <Table {...tableProps}/>
+  };
+
   return (
-    <table className="table">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Catalog Code</th>
-          <th scope="col">Value</th>
-          <th scope="col">Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        {categories.map(category => (
-          <tr>
-            <td>{category.catalogItemId}</td>
-            <td>{category.catalogCode}</td>
-            <td>{category.value}</td>
-            <td>{category.description}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div>
+      <h1>Categories</h1>
+      {renderTable()}
+    </div>
   )
 }

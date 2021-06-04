@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Table } from "../Table";
 
 import { useItemContext } from "./context/ItemContext";
 
@@ -11,31 +12,27 @@ export const Items = () => {
     getItems()
   }, []);
 
-  const renderTable = () => (
-    <table className="table table-striped table-bordered table-hover">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Quantity</th>
-          <th>Created At</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {items.map((item) => (
-          <tr key={item.itemId} >
-            <td>{item.name}</td>
-            <td>{item.quantity}</td>
-            <td>{item.createdAt}</td>
-            <td>
-              <Link className="me-3" to={`items/${item.itemId}`}>Details</Link>
-              <Link to={`add-entry/${item.itemId}`}>Add entry</Link>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
+  const renderTable = () => {
+    const tableProps = {
+      columns: ['Name', 'Quantity', 'Created At'],
+      idKey: 'itemId',
+      row: ['name', 'quantity', 'createdAt'],
+      actions: [
+        {
+          url: `items`,
+          linkName: 'Details',
+          needId: true,
+        },
+        {
+          url: `add-entry`,
+          linkName: 'Add entry',
+          needId: true
+        }
+      ],
+      items: items
+    }
+    return <Table {...tableProps}/>
+  };
 
   return (
     <div>
@@ -52,3 +49,4 @@ export const Items = () => {
     
   );
 };
+

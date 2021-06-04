@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { Route } from 'react-router';
 import { Layout } from './components/Layout';
 import { Home } from './components/Home';
-import { FetchData } from './components/FetchData';
-import { Counter } from './components/Counter';
 import { Items } from './components/Item/Items';
 import ItemProvider from './components/Item/context/ItemContext';
 import { ItemDetail } from './components/Item/ItemDetail';
@@ -33,8 +31,6 @@ export default class App extends Component {
         <CategoryContext>
           <Route exact path='/category' component={CategoryList}></Route>
         </CategoryContext>
-        <Route path='/counter' component={Counter} />
-        <Route path='/fetch-data' component={FetchData} />
       </Layout>
     );
   }
