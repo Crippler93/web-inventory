@@ -80,7 +80,7 @@ const ItemProvider = ({ children, fetchItems, fetchItemById, fetchCategories, po
     event.preventDefault();
     try {
       const {result, data} = await postItemRequest(item)
-      if (result.status !== 200) {
+      if (result.status !== 201) {
         const errors = Object.entries(data.errors).map(error => {
           const [name, errors] = error
           return {name, errors}

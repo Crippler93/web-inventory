@@ -12,6 +12,7 @@ import './custom.css'
 import { CategoryList } from './components/Category/List';
 import { CategoryContext } from './components/Category/context/CategoryContext';
 import { AddQuantity } from './components/Item/QuantityUpdate';
+import { CategoryDetail } from './components/Category/Detail';
 
 export default class App extends Component {
   static displayName = App.name;
@@ -30,6 +31,7 @@ export default class App extends Component {
         </ItemProvider>
         <CategoryContext>
           <Route exact path='/category' component={CategoryList}></Route>
+          <Route exact path='/category/:id' component={CategoryDetail}></Route>
         </CategoryContext>
       </Layout>
     );

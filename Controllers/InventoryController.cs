@@ -5,6 +5,7 @@ using System.Linq;
 using Inventory.Repository;
 using Inventory.Data;
 using Inventory.Dtos;
+using System.Threading.Tasks;
 
 namespace Inventory.Controllers
 {
@@ -19,19 +20,25 @@ namespace Inventory.Controllers
       }
 
       [HttpGet]
-      public IEnumerable<Item> getItems() {
-        return this._repo.getAll();
+      public async Task<ActionResult<List<Item>>> getItems() {
+        return await this._repo.getAll();
       } 
 
       [HttpPost]
-      public int createItem(ItemDTO item) {
-        return this._repo.create(item);
+      public async  Task<ActionResult<ItemDTO>> createItem(ItemDTO item) {
+        var newItem = new Item {Name=item.Name, CatalogItemId=item.CatalogItemId};
+
+        await this._repo.create(newItem);
+
+        var itemDTO = new ItemDTO {Name=newItem.Name, CatalogItemId=newItem.CatalogItemId};
+
+        return CreatedAtAction(nameof(getItem), new { id = newItem.ItemId}, itemDTO);
       }
 
       [HttpGet("{id:int}")]
-      public IActionResult getItem(int id)
+      public async Task<IActionResult> getItem(int id)
       {
-        var item = this._repo.getById(id);
+        var item = await this._repo.getById(id);
         if (item == null) 
         {
           return NotFound();
@@ -53,6 +60,17 @@ namespace Inventory.Controllers
       public IEnumerable<CatalogItem> getCategories([FromQuery()] string name)
       {
         return this._repo.getCategories(name);
+      }
+
+      [HttpGet("categories/{id:int}")]
+      public async Task<IActionResult> getCategoryById(int id)
+      {
+        var item = await this._repo.getCategoryById(id);
+        if (item == null) 
+        {
+          return NotFound();
+        }
+        return Ok(item);
       }
 
       [HttpPost("entry/{id:int}")]

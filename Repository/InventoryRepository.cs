@@ -4,6 +4,7 @@ using Inventory.Data;
 using Microsoft.EntityFrameworkCore;
 
 using Inventory.Dtos;
+using System.Threading.Tasks;
 
 namespace Inventory.Repository {
   public class InventoryRepository: IInventoryRepository {
@@ -15,22 +16,21 @@ namespace Inventory.Repository {
       _context = context;
     }
 
-    public IEnumerable<Item> getAll() 
+    public Task<List<Item>> getAll() 
     {
-      return this._context.Items.ToList<Item>();
+      return this._context.Items.ToListAsync<Item>();
     }
 
-    public int create(ItemDTO item) 
+    public async Task<Item> create(Item item) 
     {
-      var newItem = new Item {Name=item.Name, CatalogItemId=item.CatalogItemId};
-      this._context.Items.Add(newItem);
-      this._context.SaveChanges();
-      return newItem.ItemId;
+      this._context.Items.Add(item);
+      await this._context.SaveChangesAsync();
+      return item;
     }
 
-    public Item getById(int id)
+    public Task<Item> getById(int id)
     {
-      return this._context.Items.Include(i => i.CatalogItem).FirstOrDefault(i => i.ItemId == id);
+      return this._context.Items.Include(i => i.CatalogItem).FirstOrDefaultAsync(i => i.ItemId == id);
     }
 
     public Item editItemById(int id, ItemDTO newItem)
@@ -63,6 +63,11 @@ namespace Inventory.Repository {
       item.Quantity = item.Quantity + entryDTO.Quantity;
       this._context.SaveChanges();
       return item;
+    }
+
+    public Task<CatalogItem> getCategoryById(int id)
+    {
+      return this._context.CatalogItem.FirstOrDefaultAsync(i => i.CatalogItemId == id);
     }
   }
 }

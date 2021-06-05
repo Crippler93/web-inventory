@@ -9,7 +9,13 @@ export const withServices = C => props => {
     const data = await result.json()
     return {result, data}
   }
+
+  const fetchCategoryById = async (id) => {
+    const result = await fetch(`inventory/categories/${id}`)
+    const data = await result.json()
+    return {result, data}
+  }
   return (
-    <C fetchCategories={fetchCategories} {...props}></C>
+    <C fetchCategories={fetchCategories} fetchCategoryById={fetchCategoryById} {...props}></C>
   )
 }
