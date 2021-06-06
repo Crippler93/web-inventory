@@ -9,5 +9,6 @@ namespace Inventory.Data {
     public DbSet<Item> Items { get; set; }
     public DbSet<Catalog> Catalogs { get; set; }
     public DbSet<CatalogItem> CatalogItem { get; set; }
+    public DbSet<FieldSetup> FieldSetup { get; set; }
   }
 }
